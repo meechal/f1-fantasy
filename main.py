@@ -77,7 +77,7 @@ def find_results(remaining_budget: float,
                                       td_picked=td_picked)
         return with_picked + without_picked
 
-    return deepcopy([Result(score=0 if must_pick_constructor or must_pick_driver else 0, price=0)])
+    return deepcopy([Result(score=0, price=0)])
 
 
 if __name__ == '__main__':
@@ -105,6 +105,9 @@ if __name__ == '__main__':
             CONSTRUCTORS.append(asset)
         else:
             DRIVERS.append(asset)
+
+    sorted(CONSTRUCTORS, key=lambda c: c.predicted_score, reverse=True)
+    sorted(DRIVERS, key=lambda d: d.predicted_score, reverse=True)
 
     teams = find_results(BUDGET, 1, 5)
     for result in teams:
