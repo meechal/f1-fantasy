@@ -69,7 +69,7 @@ def find_results(remaining_budget: float,
                                                     td_picked=True),
                                        turbo=True)
             with_picked = with_picked + with_td_picked
-        without_picked = find_results(remaining_budget=remaining_budget - driver.price,
+        without_picked = find_results(remaining_budget=remaining_budget,
                                       remaining_constructor=remaining_constructor,
                                       remaining_drivers=remaining_drivers,
                                       constructor_idx=constructor_idx,
@@ -106,8 +106,8 @@ if __name__ == '__main__':
         else:
             DRIVERS.append(asset)
 
-    sorted(CONSTRUCTORS, key=lambda c: c.predicted_score, reverse=True)
-    sorted(DRIVERS, key=lambda d: d.predicted_score, reverse=True)
+    CONSTRUCTORS.sort(key=lambda c: c.predicted_score, reverse=True)
+    DRIVERS.sort(key=lambda d: d.predicted_score, reverse=True)
 
     teams = find_results(BUDGET, 1, 5)
     for result in teams:
