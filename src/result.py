@@ -21,6 +21,9 @@ class Result():
     def __repr__(self) -> str:
         return f"{self.constructor} | {', '.join(map(lambda d: str(d), self.drivers))} | {self.score:.2f} | ${self.price:.1f}"
 
+    def get_csv_format(self) -> str:
+        return f"{self.constructor}, {', '.join(map(lambda d: str(d), self.drivers))}, {self.score:.2f}, {self.price:.1f}"
+
     def __calculate_score_and_price(self):
         self.price = self.constructor.price if self.has_constructor else 0
         self.score = self.constructor.predicted_score if self.has_constructor else 0

@@ -86,12 +86,14 @@ if __name__ == '__main__':
     for d in data.players:
         number_of_rounds = len(d.season_prices) if number_of_rounds is None else number_of_rounds
         streak = 0.
+        race_streak = int(d.streak_events_progress.top_ten_in_a_row_race_progress)
+        qualifying_streak = int(d.streak_events_progress.top_ten_in_a_row_qualifying_progress)
         if d.is_constructor:
-            streak += STREAK_R if d.streak_events_progress.top_ten_in_a_row_race_progress == STREAK_CONSTRUCTOR - 1 else 0.
-            streak += STREAK_Q if d.streak_events_progress.top_ten_in_a_row_qualifying_progress == STREAK_CONSTRUCTOR - 1 else 0.
+            streak += STREAK_R if race_streak == STREAK_CONSTRUCTOR - 1 else 0.
+            streak += STREAK_Q if qualifying_streak == STREAK_CONSTRUCTOR - 1 else 0.
         else:
-            streak += STREAK_R if d.streak_events_progress.top_ten_in_a_row_race_progress == STREAK_DRIVER - 1 else 0.
-            streak += STREAK_Q if d.streak_events_progress.top_ten_in_a_row_qualifying_progress == STREAK_DRIVER - 1 else 0.
+            streak += STREAK_R if race_streak == STREAK_DRIVER - 1 else 0.
+            streak += STREAK_Q if qualifying_streak == STREAK_DRIVER - 1 else 0.
         asset = Asset(
             is_constructor=d.is_constructor,
             is_driver=not d.is_constructor,
@@ -106,8 +108,8 @@ if __name__ == '__main__':
         else:
             DRIVERS.append(asset)
 
-    CONSTRUCTORS.sort(key=lambda c: c.predicted_score, reverse=True)
-    DRIVERS.sort(key=lambda d: d.predicted_score, reverse=True)
+    CONSTRUCTORS.sort(key=lambda c: c.ppm, reverse=True)
+    DRIVERS.sort(key=lambda d: d.ppm, reverse=True)
 
     teams = find_results(BUDGET, 1, 5)
     for result in teams:

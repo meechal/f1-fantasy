@@ -17,6 +17,7 @@ class Asset:
         self.avg_score = self.score / number_of_rounds
         self.predicted_score = self.avg_score + self.streak
         self.price = price
+        self.ppm = self.predicted_score / self.price
 
     def __repr__(self) -> str:
         return f"{self.name}{'(TD)' if self.is_turbo else ''}"
